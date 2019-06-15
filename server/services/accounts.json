@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "admin",
+    "name": "Administrator",
+    "food": ["Banana", "Apple"],
+    "movie": ["Doraemon", "Spiderman: Far From Home", "Assasins Creed"]
+  },
+  {
+    "id": 2,
+    "username": "albert",
+    "password": "guacamole",
+    "name": "Albert Ferguson",
+    "food": ["Guacamole"],
+    "movie": ["007"]
+  },
+  {
+    "id": 3,
+    "username": "food",
+    "password": "is awesome",
+    "name": "Verdinand",
+    "food": ["Anything"],
+    "movie": ["Captain America: Civil War"]
+  }
+]
