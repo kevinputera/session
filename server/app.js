@@ -1,11 +1,9 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const dotenv = require('dotenv');
 const response = require('./utils/response');
 const accountService = require('./services/accountService');
 const { enableCors } = require('./middlewares/corsMiddleware');
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -64,6 +62,6 @@ app.get('/movies', (req, res) => {
 })
 
 app.listen(
-  process.env.EXPRESS_PORT, 
+  8080, 
   () => console.log('session-server started!')
 );
