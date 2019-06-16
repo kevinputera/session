@@ -7,7 +7,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       showLogin: false,
+      username: '',
+      password: '',
     };
+    this.usernameInputRef = null;
   }
 
   handleLogout = async () => {
@@ -17,6 +20,25 @@ class App extends React.Component {
       credentials: 'include',
     });
     this.toggleLogin(true);
+    this.handleLoginClear();
+  }
+
+  handleLoginChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleLoginClear = () => {
+    this.setState({
+      username: '',
+      password: '',
+    });
+    this.usernameInputRef.focus();
+  }
+
+  assignUsernameInputRef = el => {
+    this.usernameInputRef = el;
   }
 
   toggleLogin = showLogin => {
@@ -27,13 +49,45 @@ class App extends React.Component {
 
   render() {
     const content = this.state.showLogin 
-        ? <Login toggleLogin={this.toggleLogin} />
-        : <Dashboard toggleLogin={this.toggleLogin} handleLogout={this.handleLogout} />;
+        ? <Login 
+            username={this.state.username}
+            password={this.state.password}
+            assignUsernameInputRef={this.assignUsernameInputRef}
+            handleClear={this.handleLoginClear}
+            handleChange={this.handleLoginChange}
+            toggleLogin={this.toggleLogin}
+          />
+        : <Dashboard />;
 
+    // TODO: add status bar
     return (
-      <div className="page-container">
-        <div className="status-bar"></div>
-        <div className="error-bar"></div>
+      <div className="container mt-2">
+        <nav className="navbar navbar-light bg-light rounded-top">
+          <button 
+            className=
+              {this.state.showLogin 
+                  ? "btn btn-outline-secondary" 
+                  : "btn btn-outline-secondary active"}
+            onClick={() => this.toggleLogin(false)}
+          >
+            Dashboard
+          </button>
+          <button 
+            className=
+              {this.state.showLogin
+                  ? "btn btn-outline-secondary ml-auto active"
+                  : "btn btn-outline-secondary ml-auto"}
+            onClick={() => this.toggleLogin(true)}
+          >
+            Login
+          </button>
+          <button 
+            className="btn btn-danger ml-1"
+            onClick={this.handleLogout}
+          >
+            Logout
+          </button>
+        </nav>
         {content}
       </div>
     );

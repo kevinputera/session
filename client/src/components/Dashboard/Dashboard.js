@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -65,26 +65,37 @@ class Dashboard extends React.Component {
   render() {
     let items;
     if (this.state.items) {
-      items = this.state.items.map(item => <li>{item}</li>);
+      items = this.state.items.map(item => 
+        <li key={item} className="list-group-item">{item}</li>
+      );
     }
     return (
-      <Fragment>
-        <button onClick={() => this.props.toggleLogin(true)}>Login</button>
-        <button onClick={this.props.handleLogout}>Logout</button>
-
-        <div className="dashboard-message">
+      <div className="border rounded-bottom p-4">
+        <p className="lead">
           {this.state.name 
-            ? `Greetings, ${this.state.name}` 
+            ? `Greetings, ${this.state.name}!` 
             : 'You must login before continuing.'}
-        </div>
+        </p>
 
-        <button onClick={this.handleFoods}>Get Foods!</button>
-        <button onClick={this.handleMovies}>Get Movies!</button>
+        <button 
+          onClick={this.handleFoods} 
+          disabled={!this.state.name}
+          className="btn btn-outline-secondary"
+        >
+          Get Foods!
+        </button>
+        <button 
+          onClick={this.handleMovies}
+          disabled={!this.state.name}
+          className="btn btn-outline-secondary ml-1"
+        >
+          Get Movies!
+        </button>
 
-        <ul>
+        <ul className="list-group mt-3">
           {items}
         </ul>
-      </Fragment>
+      </div>
     );
   }
 }

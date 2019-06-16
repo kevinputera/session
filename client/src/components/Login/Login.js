@@ -1,15 +1,6 @@
 import React, { Fragment } from 'react';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
-    this.usernameInputRef = null;
-  }
-
   handleSubmit = async e => {
     e.preventDefault();
 
@@ -20,7 +11,10 @@ class Login extends React.Component {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(this.state), 
+      body: JSON.stringify({
+        username: this.props.username,
+        password: this.props.password,
+      }), 
       credentials: 'include',
     });
     const json = await res.json();
@@ -28,60 +22,58 @@ class Login extends React.Component {
     if (json.body.authenticate) {
       this.props.toggleLogin(false);
     } else {
-      this.handleClear();
+      this.props.handleClear();
     }
-  }
-
-  handleClear = () => {
-    this.setState({
-      username: '',
-      password: '',
-    });
-    this.usernameInputRef.focus();
-  }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
   }
 
   render() {
     return (
       <Fragment>
-        <button onClick={() => this.props.toggleLogin(false)}>Dashboard</button>
-        
-        <form>
-          <label htmlFor="username">Username</label>
-          <input 
-            type="text" 
-            id="username"
-            name="username"
-            maxLength="30" 
-            placeholder="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            ref={el => this.usernameInputRef = el}
-            autoFocus
-          />
+        <form className="border rounded-bottom p-4">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input 
+              type="text" 
+              id="username"
+              name="username"
+              maxLength="30" 
+              placeholder="Enter username"
+              value={this.props.username}
+              onChange={this.props.handleChange}
+              ref={this.props.assignUsernameInputRef}
+              className="form-control"
+              autoFocus
+            />
+          </div>
 
-          <br />
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              maxLength="30" 
+              placeholder="password"
+              value={this.props.password}
+              onChange={this.props.handleChange}
+              className="form-control"
+            />
+          </div>
 
-          <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            maxLength="30" 
-            placeholder="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-
-          <br />
-
-          <button type="submit" onClick={this.handleSubmit}>Submit</button>
-          <button type="reset" onClick={this.handleClear}>Clear</button>
+          <button 
+            type="submit" 
+            onClick={this.handleSubmit}
+            className="btn btn-secondary"
+          >
+            Submit
+          </button>
+          <button 
+            type="reset" 
+            onClick={this.props.handleClear}
+            className="btn btn-danger ml-1"
+          >
+            Clear
+          </button>
         </form>
       </Fragment>
     )
